@@ -5,34 +5,34 @@ import Annotations.Value;
 
 @Entity
 public class Human {
-    @Value(20)
+    @Value(value = "20")
     private int age;
-    @Value(87)
-    private int weight;
+    @Value(value = "20")
+    private String name;
 
     public int getAge() {
         return age;
     }
 
-    @Value(20)
+    @Value("20")
     public void setAge(int age) {
         this.age = age;
     }
 
-    public int getWeight() {
-        return weight;
+    public String getName() {
+        return name;
     }
 
-    @Value(87)
-    public void setWeight(int weight) {
-        this.weight = weight;
+    @Value(value = "20", valuesTxtPath = "src\\main\\resources\\values.txt")
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public String toString() {
         return "Human{" +
                 "age=" + age +
-                ", weight=" + weight +
+                ", name=" + name +
                 '}';
     }
 }

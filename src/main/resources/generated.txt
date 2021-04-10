@@ -1,0 +1,4 @@
+age=0
+name=Denis
+height=0
+material=5
