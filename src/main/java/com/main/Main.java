@@ -17,7 +17,7 @@ public class Main {
     List<Object> searchedClasses;
 
     public static void main(String[] args) {
-        InstanceCreator creator = new InstanceCreator();
+        InstanceCreatorImpl creator = new InstanceCreatorImpl();
         File pojos = new File("src/main/java/pojos");
         List<Object> fromDirectory = creator.createFromDirectory(pojos);
         fromDirectory.forEach(o -> {
@@ -35,7 +35,7 @@ public class Main {
                             field.setAccessible(true);
                             field.set(o, field.getAnnotation(Value.class).value());
                             if (!field.getAnnotation(Value.class).valuesTxtPath().isEmpty()) {
-                                field.set(o,readFromFile(field.getAnnotation(Value.class).valuesTxtPath(), field.getName()));
+                                field.set(o, readFromFile(field.getAnnotation(Value.class).valuesTxtPath(), field.getName()));
                             }
                         } catch (IllegalAccessException | IOException e) {
                             e.printStackTrace();
@@ -66,14 +66,14 @@ public class Main {
 
         fromDirectory.forEach(System.out::println);
         try {
-            System.out.println(valuesGenerator(System.getProperty("user.dir")+ "\\src\\main\\resources\\generated.txt",fromDirectory));
+            System.out.println(valuesGenerator(System.getProperty("user.dir") + "\\src\\main\\resources\\generated.txt", fromDirectory));
         } catch (IOException e) {
             e.printStackTrace();
         }
         System.out.println("Классы с аннотцией @Entity");
-            for (Class aClass : checkClasses(Path.of(System.getProperty("user.dir") + "/src/main/java")))  {
-                System.out.println(aClass);
-            }
+        for (Class aClass : checkClasses(Path.of(System.getProperty("user.dir") + "/src/main/java"))) {
+            System.out.println(aClass);
+        }
 
 
     }
