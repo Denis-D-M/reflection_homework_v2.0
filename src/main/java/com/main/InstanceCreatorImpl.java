@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public class InstanceCreatorImpl implements InstanceCreator {
     public List<Object> createFromDirectory(File pojos){
 
-        if (pojos == null) {
+        if (pojos == null || !pojos.isDirectory() ) {
             return new ArrayList<>();
         }
 
