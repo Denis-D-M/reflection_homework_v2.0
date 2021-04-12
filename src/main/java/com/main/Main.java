@@ -18,7 +18,7 @@ public class Main {
 
     public static void main(String[] args) {
         InstanceCreator creator = new InstanceCreator();
-        File pojos = new File(System.getProperty("user.dir") + "\\src\\main\\java\\pojos");
+        File pojos = new File("src/main/java/pojos");
         List<Object> fromDirectory = creator.createFromDirectory(pojos);
         fromDirectory.forEach(o -> {
             boolean isEntity = o.getClass().getAnnotation(Entity.class) != null;
