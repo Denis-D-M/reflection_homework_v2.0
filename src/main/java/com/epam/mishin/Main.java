@@ -5,6 +5,7 @@ import com.epam.mishin.annotation.Value;
 import com.epam.mishin.exception.NoValueAnnotationException;
 import com.epam.mishin.instance.InstanceCreator;
 import com.epam.mishin.instance.impl.InstanceCreatorImpl;
+import com.epam.mishin.pojo.Human;
 
 import java.io.*;
 import java.lang.reflect.Field;
@@ -18,13 +19,11 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class Main {
-    InstanceCreator creator = new InstanceCreatorImpl();
+    static InstanceCreator creator = new InstanceCreatorImpl();
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
-    public static void main(String[] args) {
-        LOGGER.config("loggggggg");
-        Main main = new Main();
-        main.main();
+    public static void main(String[] args) throws ClassNotFoundException {
+        System.out.println(creator.createFromDirectory("src/main/java/com/epam/mishin/pojo"));
     }
 
     public void main() {

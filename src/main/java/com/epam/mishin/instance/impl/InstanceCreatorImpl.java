@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class InstanceCreatorImpl implements InstanceCreator {
-
     private static final Logger LOGGER = Logger.getLogger(InstanceCreatorImpl.class.getName());
 
     public List<Object> createFromDirectory(String directory) {
@@ -27,7 +26,9 @@ public class InstanceCreatorImpl implements InstanceCreator {
             LOGGER.log(Level.WARNING, "Path is not a directory");
             return Collections.emptyList();
         }
-        return Arrays.stream(pojos.list()).map(pojoName -> pojoName.replace(".java", ""))
+        String packageName = directory.replaceAll("src/main/java/", "").replace('/','.') + ".";
+
+        return Arrays.stream(pojos.list()).map(pojoName ->   packageName + pojoName.replace(".java", ""))
                 .map(InstanceCreatorImpl::createClassByName)
                 .filter(Optional::isPresent)
                 .map(o -> createObjectFromClass(o.get()))
@@ -47,7 +48,7 @@ public class InstanceCreatorImpl implements InstanceCreator {
 
     private static Optional<Object> createObjectFromClass(Class<?> aClass) {
         try {
-            aClass.getConstructor().newInstance();
+            return Optional.of(aClass.getConstructor().newInstance());
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             LOGGER.log(Level.WARNING, "Object of " + aClass.getName() + " class has not been created");
         }
