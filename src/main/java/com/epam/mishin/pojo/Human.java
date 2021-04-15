@@ -1,7 +1,7 @@
-package pojos;
+package com.epam.mishin.pojo;
 
-import Annotations.Entity;
-import Annotations.Value;
+import com.epam.mishin.annotation.Entity;
+import com.epam.mishin.annotation.Value;
 
 @Entity
 public class Human {
