@@ -5,9 +5,12 @@ import com.epam.mishin.annotation.Value;
 import com.epam.mishin.exception.NoValueAnnotationException;
 import com.epam.mishin.instance.InstanceCreator;
 import com.epam.mishin.instance.impl.InstanceCreatorImpl;
-import com.epam.mishin.pojo.Human;
+import com.epam.mishin.scanner.impl.PackageScannerImpl;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -22,44 +25,44 @@ public class Main {
     static InstanceCreator creator = new InstanceCreatorImpl();
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
-    public static void main(String[] args) throws ClassNotFoundException {
-        System.out.println(creator.createFromDirectory("src/main/java/com/epam/mishin/pojo"));
+    public static void main(String[] args)  {
+        System.out.println(creator.createObjects(new PackageScannerImpl().scanPackage("src/main/java/com/epam/mishin/pojo")));
     }
 
-    public void main() {
-        List<Object> fromDirectory = creator.createFromDirectory("src/main/java/pojos");
-
-        fromDirectory.forEach(o -> {
-            checkClassAnnotations(o);
-            LOGGER.log(Level.FINE, "Объект класса " + o.getClass().getSimpleName() + " был успешно создан.");
-
-            Arrays.stream(o.getClass().getDeclaredFields())
-                    .forEach(field -> {
-                        try {
-                            field.setAccessible(true);
-                            field.set(o, field.getAnnotation(Value.class).value());
-                            if (!field.getAnnotation(Value.class).valuesTxtPath().isEmpty()) {
-                                field.set(o, readFromFile(field.getAnnotation(Value.class).valuesTxtPath(), field.getName()));
-                                return;
-                            }
-                        } catch (IllegalAccessException e) {
-                            e.printStackTrace();
-                        } catch (IllegalArgumentException e) {
-                            System.err.println("Недопустимый @Value у поля");
-                        }
-
-                    });
-            System.out.println("Поля объекта класса " + o.getClass().getSimpleName() + " успешно были заполнены из @Value.");
-
-        });
-
-        fromDirectory.forEach(System.out::println);
-
-        System.out.println("Классы с аннотцией @Entity");
-        for (Class<?> aClass : checkClasses(Path.of("src/main/java/pojos"))) {
-            System.out.println(aClass);
-        }
-    }
+//    public void main() {
+//        List<Object> fromDirectory = creator.createFromDirectory("src/main/java/pojos");
+//
+//        fromDirectory.forEach(o -> {
+//            checkClassAnnotations(o);
+//            LOGGER.log(Level.FINE, "Объект класса " + o.getClass().getSimpleName() + " был успешно создан.");
+//
+//            Arrays.stream(o.getClass().getDeclaredFields())
+//                    .forEach(field -> {
+//                        try {
+//                            field.setAccessible(true);
+//                            field.set(o, field.getAnnotation(Value.class).value());
+//                            if (!field.getAnnotation(Value.class).valuesTxtPath().isEmpty()) {
+//                                field.set(o, readFromFile(field.getAnnotation(Value.class).valuesTxtPath(), field.getName()));
+//                                return;
+//                            }
+//                        } catch (IllegalAccessException e) {
+//                            e.printStackTrace();
+//                        } catch (IllegalArgumentException e) {
+//                            System.err.println("Недопустимый @Value у поля");
+//                        }
+//
+//                    });
+//            System.out.println("Поля объекта класса " + o.getClass().getSimpleName() + " успешно были заполнены из @Value.");
+//
+//        });
+//
+//        fromDirectory.forEach(System.out::println);
+//
+//        System.out.println("Классы с аннотцией @Entity");
+//        for (Class<?> aClass : checkClasses(Path.of("src/main/java/pojos"))) {
+//            System.out.println(aClass);
+//        }
+//    }
 
     public static void checkClassAnnotations(Object object) {
         Field[] fields = object.getClass().getDeclaredFields();
