@@ -34,7 +34,7 @@ public class Main {
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args)  {
-        System.out.println(classAnnotationScanner.isAnnotationOnClass(Table.class, Entity.class));
+        System.out.println(classAnnotationScanner.isClassEntity(Table.class));
 //        List<Class<?>> classes = scanner.scanPackage("src/main/java/com/epam/mishin/pojo");
 //        List<Object> objects = creator.createObjects(classes);
     }
