@@ -20,7 +20,6 @@ public class PackageScannerImpl implements PackageScanner {
             LOGGER.log(Level.WARNING, "Path is not a directory");
             return Collections.emptyList();
         }
-
         return Arrays.stream(Objects.requireNonNull(pojos.list(), "Pojos has no elements"))
                 .map(pojoName ->   PACKAGE_NAME + pojoName.replace(".java", ""))
                 .map(PackageScannerImpl::createByClassName)

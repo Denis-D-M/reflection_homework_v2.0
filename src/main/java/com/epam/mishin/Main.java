@@ -5,12 +5,18 @@ import com.epam.mishin.annotation.Value;
 import com.epam.mishin.exception.NoValueAnnotationException;
 import com.epam.mishin.instance.InstanceCreator;
 import com.epam.mishin.instance.impl.InstanceCreatorImpl;
+import com.epam.mishin.pojo.Human;
+import com.epam.mishin.pojo.Table;
+import com.epam.mishin.scanner.ClassAnnotationScanner;
+import com.epam.mishin.scanner.PackageScanner;
+import com.epam.mishin.scanner.impl.ClassAnnotationScannerImpl;
 import com.epam.mishin.scanner.impl.PackageScannerImpl;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -22,11 +28,15 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class Main {
+    static PackageScanner scanner = new PackageScannerImpl();
     static InstanceCreator creator = new InstanceCreatorImpl();
+    static ClassAnnotationScanner classAnnotationScanner = new ClassAnnotationScannerImpl();
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args)  {
-        System.out.println(creator.createObjects(new PackageScannerImpl().scanPackage("src/main/java/com/epam/mishin/pojo")));
+        System.out.println(classAnnotationScanner.isAnnotationOnClass(Table.class, Entity.class));
+//        List<Class<?>> classes = scanner.scanPackage("src/main/java/com/epam/mishin/pojo");
+//        List<Object> objects = creator.createObjects(classes);
     }
 
 //    public void main() {
