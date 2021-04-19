@@ -2,6 +2,7 @@ package com.epam.mishin.scanner.impl;
 
 import com.epam.mishin.annotation.Entity;
 import com.epam.mishin.annotation.Value;
+import com.epam.mishin.scanner.ClassAnnotationValidator;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -13,11 +14,11 @@ import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class ClassAnnotationValidator {
-    private static final Logger LOGGER = Logger.getLogger(ClassAnnotationValidator.class.getName());
+public class ClassAnnotationValidatorImpl implements ClassAnnotationValidator {
+    private static final Logger LOGGER = Logger.getLogger(ClassAnnotationValidatorImpl.class.getName());
 
     public List<Class<?>> validateClasses(List<Class<?>> classList) {
-        return classList.stream().map(ClassAnnotationValidator::checkClass)
+        return classList.stream().map(ClassAnnotationValidatorImpl::checkClass)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
@@ -25,7 +26,7 @@ public class ClassAnnotationValidator {
     }
 
     private static Optional<Class<?>> checkClass(Class<?> aClass) {
-        if (ClassAnnotationValidator.isClassEntity(aClass)) {
+        if (ClassAnnotationValidatorImpl.isClassEntity(aClass)) {
             isEntityCorrect(aClass);
             return Optional.of(aClass);
         }

@@ -3,8 +3,9 @@ package com.epam.mishin;
 import com.epam.mishin.injector.ValueAnnotationInjector;
 import com.epam.mishin.instance.InstanceCreator;
 import com.epam.mishin.instance.impl.InstanceCreatorImpl;
+import com.epam.mishin.scanner.ClassAnnotationValidator;
 import com.epam.mishin.scanner.PackageScanner;
-import com.epam.mishin.scanner.impl.ClassAnnotationValidator;
+import com.epam.mishin.scanner.impl.ClassAnnotationValidatorImpl;
 import com.epam.mishin.scanner.impl.PackageScannerImpl;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.logging.Logger;
 public class Main {
     static PackageScanner scanner = new PackageScannerImpl();
     static InstanceCreator creator = new InstanceCreatorImpl();
-    static ClassAnnotationValidator classAnnotationValidator = new ClassAnnotationValidator();
+    static ClassAnnotationValidator classAnnotationValidator = new ClassAnnotationValidatorImpl();
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args)  {
