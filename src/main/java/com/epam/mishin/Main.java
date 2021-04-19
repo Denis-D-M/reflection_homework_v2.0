@@ -3,20 +3,17 @@ package com.epam.mishin;
 import com.epam.mishin.annotation.Entity;
 import com.epam.mishin.annotation.Value;
 import com.epam.mishin.exception.NoValueAnnotationException;
+import com.epam.mishin.injector.ValueAnnotationInjector;
 import com.epam.mishin.instance.InstanceCreator;
 import com.epam.mishin.instance.impl.InstanceCreatorImpl;
-import com.epam.mishin.pojo.Human;
-import com.epam.mishin.pojo.Table;
-import com.epam.mishin.scanner.ClassAnnotationScanner;
 import com.epam.mishin.scanner.PackageScanner;
-import com.epam.mishin.scanner.impl.ClassAnnotationScannerImpl;
+import com.epam.mishin.scanner.impl.ClassAnnotationValidator;
 import com.epam.mishin.scanner.impl.PackageScannerImpl;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -30,11 +27,17 @@ import java.util.stream.Collectors;
 public class Main {
     static PackageScanner scanner = new PackageScannerImpl();
     static InstanceCreator creator = new InstanceCreatorImpl();
-    static ClassAnnotationScanner classAnnotationScanner = new ClassAnnotationScannerImpl();
+    static ClassAnnotationValidator classAnnotationValidator = new ClassAnnotationValidator();
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
     public static void main(String[] args)  {
-        System.out.println(classAnnotationScanner.isClassEntity(Table.class));
+        List<Class<?>> classes = scanner.scanPackage("src/main/java/com/epam/mishin/pojo");
+        classAnnotationValidator.validateClasses(classes);
+        List<Object> objects = creator.createObjects(classes);
+        System.out.println(objects);
+        objects.forEach(ValueAnnotationInjector::injectValue);
+        System.out.println(objects);
+//       classAnnotationScanner.validateClasses(scanner.scanPackage("src/main/java/com/epam/mishin/pojo"));
 //        List<Class<?>> classes = scanner.scanPackage("src/main/java/com/epam/mishin/pojo");
 //        List<Object> objects = creator.createObjects(classes);
     }

@@ -5,9 +5,9 @@ import com.epam.mishin.annotation.Value;
 
 @Entity
 public class Human {
-    @Value(value = "20")
+    @Value(value = "10")
     private int age;
-    @Value(value = "20")
+    @Value(value = "10")
     private String name;
 
     public int getAge() {

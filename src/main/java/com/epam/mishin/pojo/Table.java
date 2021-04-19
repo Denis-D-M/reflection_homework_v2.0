@@ -1,8 +1,7 @@
 package com.epam.mishin.pojo;
 
-import com.epam.mishin.annotation.Entity;
 import com.epam.mishin.annotation.Value;
-@Entity
+
 public class Table {
     @Value("1")
     private int height;
