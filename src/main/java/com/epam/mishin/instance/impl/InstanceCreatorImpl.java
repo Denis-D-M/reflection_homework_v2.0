@@ -5,7 +5,6 @@ import com.epam.mishin.instance.InstanceCreator;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -26,7 +25,7 @@ public class InstanceCreatorImpl implements InstanceCreator {
         try {
             return Optional.of(aClass.getConstructor().newInstance());
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            LOGGER.log(Level.WARNING, "Object of " + aClass.getName() + " class has not been created");
+            LOGGER.warning("Object of " + aClass.getName() + " class has not been created");
         }
         return Optional.empty();
     }

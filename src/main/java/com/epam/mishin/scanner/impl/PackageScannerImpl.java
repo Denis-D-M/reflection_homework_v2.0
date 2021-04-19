@@ -17,7 +17,7 @@ public class PackageScannerImpl implements PackageScanner {
     public List<Class<?>> scanPackage(String directory) {
         File pojos = new File(directory);
         if (!pojos.isDirectory()) {
-            LOGGER.log(Level.WARNING, "Path is not a directory");
+            LOGGER.warning( "Path is not a directory");
             return Collections.emptyList();
         }
         return Arrays.stream(Objects.requireNonNull(pojos.list(), "Pojos has no elements"))
@@ -32,7 +32,7 @@ public class PackageScannerImpl implements PackageScanner {
         try {
             return Optional.of(Class.forName(className));
         } catch (java.lang.ClassNotFoundException e) {
-            LOGGER.log(Level.WARNING, e, () -> "Class was not found by name " + className);
+            LOGGER.warning("Class was not found by name " + className);
         }
         return Optional.empty();
     }

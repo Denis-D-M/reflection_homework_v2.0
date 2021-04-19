@@ -2,7 +2,6 @@ package com.epam.mishin.scanner.impl;
 
 import com.epam.mishin.annotation.Entity;
 import com.epam.mishin.annotation.Value;
-import com.epam.mishin.exception.NoValueAnnotationException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -11,7 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -47,14 +45,11 @@ public class ClassAnnotationValidator {
         Field[] fields = anEntity.getFields();
         boolean isNoValueField = Arrays.stream(fields)
                 .anyMatch(field -> Objects.isNull(field.getAnnotation(Value.class)));
-
         if (isNoValueField) {
-            LOGGER.log(Level.WARNING, new NoValueAnnotationException(),
-                    () -> "There is field with no @Value annotation in " + anEntity.getSimpleName());
+            LOGGER.warning("There is field with no @Value annotation in " + anEntity.getSimpleName());
             return;
         }
-
-        LOGGER.log(Level.FINE, "All fields of " + anEntity.getSimpleName() + " entity have a @Value annotations");
+        LOGGER.info("All fields of " + anEntity.getSimpleName() + " entity have a @Value annotations");
     }
 
     private static void checkValueAnnotation(Class<?> aClass) {
@@ -66,10 +61,10 @@ public class ClassAnnotationValidator {
                 .filter(method -> method.getName().contains("set"))
                 .anyMatch(method -> Objects.nonNull(method.getAnnotation(Value.class)));
         if (isValueField || isValueMethod){
-            LOGGER.log(Level.WARNING, "Some @Value annotation in " + aClass.getSimpleName());
+            LOGGER.warning( "Some @Value annotation in " + aClass.getSimpleName());
             return;
         }
-        LOGGER.log(Level.FINE, aClass.getSimpleName() + " have been successfully created");
+        LOGGER.info(aClass.getSimpleName() + " have been successfully created");
     }
 
 }

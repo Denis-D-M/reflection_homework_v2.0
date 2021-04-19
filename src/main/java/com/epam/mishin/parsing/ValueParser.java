@@ -16,7 +16,6 @@ public class ValueParser {
         }
         if (type.equals(String.class)) {
             field.set(object, s);
-            return;
         }
     }
     public static void parseTxt(Object object, Field field, String path) throws IllegalAccessException, IOException {
@@ -24,15 +23,6 @@ public class ValueParser {
                 .filter(s1 -> s1.contains(field.getName()))
                 .map(s1 -> s1.replace(field.getName() + "=", ""))
                 .collect(Collectors.joining());
-        Class<?> type = field.getType();
-        field.setAccessible(true);
-        if (type.equals(int.class)) {
-            field.set(object, Integer.parseInt(s));
-            return;
-        }
-        if (type.equals(String.class)) {
-            field.set(object, s);
-            return;
-        }
+        parse(object, field, s);
     }
 }
