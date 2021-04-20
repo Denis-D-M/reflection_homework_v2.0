@@ -1,7 +1,5 @@
 package com.epam.mishin.generator.impl;
 
-import com.epam.mishin.generator.ValuesGenerator;
-
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,8 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class ValuesGeneratorImpl implements ValuesGenerator {
-    @Override
+public class ValuesGenerator {
+
     public void generateRandomValuesIntString(String path, List<Object> objects, int count) throws IOException {
         BufferedWriter writer = new BufferedWriter(new FileWriter(path));
         int maxIndex = objects.size() - 1;

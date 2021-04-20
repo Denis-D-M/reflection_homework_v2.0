@@ -1,21 +1,18 @@
 package com.epam.mishin.instance.impl;
 
-import com.epam.mishin.instance.InstanceCreator;
-
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class InstanceCreatorImpl implements InstanceCreator {
-    private static final Logger LOGGER = Logger.getLogger(InstanceCreatorImpl.class.getName());
+public class InstanceCreator {
+    private static final Logger LOGGER = Logger.getLogger(InstanceCreator.class.getName());
 
-    @Override
     public List<Object> createObjects(List<Class<?>> classList) {
 
         return classList.stream()
-                .map(InstanceCreatorImpl::createObjectFromClass)
+                .map(InstanceCreator::createObjectFromClass)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());

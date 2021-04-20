@@ -2,7 +2,6 @@ package com.epam.mishin.scanner.impl;
 
 import com.epam.mishin.annotation.Entity;
 import com.epam.mishin.annotation.Value;
-import com.epam.mishin.scanner.ClassAnnotationValidator;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -14,11 +13,11 @@ import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-public class ClassAnnotationValidatorImpl implements ClassAnnotationValidator {
-    private static final Logger LOGGER = Logger.getLogger(ClassAnnotationValidatorImpl.class.getName());
+public class ClassAnnotationValidator {
+    private static final Logger LOGGER = Logger.getLogger(ClassAnnotationValidator.class.getName());
 
     public List<Class<?>> validateClasses(List<Class<?>> classList) {
-        return classList.stream().map(ClassAnnotationValidatorImpl::checkClass)
+        return classList.stream().map(ClassAnnotationValidator::checkClass)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .collect(Collectors.toList());
@@ -26,7 +25,7 @@ public class ClassAnnotationValidatorImpl implements ClassAnnotationValidator {
     }
 
     private static Optional<Class<?>> checkClass(Class<?> aClass) {
-        if (ClassAnnotationValidatorImpl.isClassEntity(aClass)) {
+        if (ClassAnnotationValidator.isClassEntity(aClass)) {
             isEntityCorrect(aClass);
             return Optional.of(aClass);
         }
@@ -61,8 +60,8 @@ public class ClassAnnotationValidatorImpl implements ClassAnnotationValidator {
         boolean isValueMethod = Arrays.stream(methods)
                 .filter(method -> method.getName().contains("set"))
                 .anyMatch(method -> Objects.nonNull(method.getAnnotation(Value.class)));
-        if (isValueField || isValueMethod){
-            LOGGER.warning( "Some @Value annotation in " + aClass.getSimpleName());
+        if (isValueField || isValueMethod) {
+            LOGGER.warning("Some @Value annotation in " + aClass.getSimpleName());
             return;
         }
         LOGGER.info(aClass.getSimpleName() + " have been successfully created");
